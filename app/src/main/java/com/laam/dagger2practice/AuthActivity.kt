@@ -12,10 +12,15 @@ class AuthActivity : DaggerAppCompatActivity() {
     @Inject
     lateinit var asdad: String
 
+    @JvmField
+    @Inject
+    var isNull: Boolean = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
 
         Log.d(TAG, " $asdad")
+        Log.d(TAG, "is null ? $isNull")
     }
 }
