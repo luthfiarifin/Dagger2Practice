@@ -1,13 +1,16 @@
 package com.laam.dagger2practice.di
 
-import com.laam.dagger2practice.AuthActivity
+//import com.laam.dagger2practice.di.auth.AuthViewModelModule
+import com.laam.dagger2practice.di.auth.AuthViewModelModule
+import com.laam.dagger2practice.ui.auth.AuthActivity
 import dagger.Module
-import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ActivityBuildersModule {
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(
+        modules = [AuthViewModelModule::class]
+    )
     abstract fun contributeAuthActivity(): AuthActivity
 }
