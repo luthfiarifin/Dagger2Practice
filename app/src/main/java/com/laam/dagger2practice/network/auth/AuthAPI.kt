@@ -1,11 +1,14 @@
 package com.laam.dagger2practice.network.auth
 
-import okhttp3.ResponseBody
-import retrofit2.Call
+import com.laam.dagger2practice.model.User
+import io.reactivex.Flowable
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface AuthAPI {
 
-    @GET
-    fun getFakeStuff():Call<ResponseBody>
+    @GET("users/{id}")
+    fun getUser(
+        @Path("id") id: Int
+    ): Flowable<User>
 }
