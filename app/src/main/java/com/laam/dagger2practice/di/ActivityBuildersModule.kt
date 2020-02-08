@@ -1,6 +1,6 @@
 package com.laam.dagger2practice.di
 
-//import com.laam.dagger2practice.di.auth.AuthViewModelModule
+import com.laam.dagger2practice.di.auth.AuthModule
 import com.laam.dagger2practice.di.auth.AuthViewModelModule
 import com.laam.dagger2practice.ui.auth.AuthActivity
 import dagger.Module
@@ -10,7 +10,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityBuildersModule {
 
     @ContributesAndroidInjector(
-        modules = [AuthViewModelModule::class]
+        modules = [AuthViewModelModule::class, AuthModule::class]
     )
     abstract fun contributeAuthActivity(): AuthActivity
 }
