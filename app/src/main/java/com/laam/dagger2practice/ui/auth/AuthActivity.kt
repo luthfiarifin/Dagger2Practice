@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -47,11 +48,36 @@ class AuthActivity : DaggerAppCompatActivity() {
     }
 
     private fun subscribeObservers() {
-        viewModel.observeUser().observe(this, Observer { user ->
-            user?.let {
-                Log.d(TAG, "onChanged: ${user.email}")
+        viewModel.observeUser().observe(this, Observer {
+            it?.let { authResource ->
+                when (authResource.status) {
+                    AuthResource.AuthStatus.LOADING -> {
+                        showProgressBar(true)
+
+                    }
+                    AuthResource.AuthStatus.AUTHENTICATED -> {
+                        showProgressBar(false)
+                        Log.d(TAG, "onChange: Login Success ${authResource.data?.name}")
+                    }
+                    AuthResource.AuthStatus.ERROR -> {
+                        showProgressBar(false)
+                        Toast.makeText(this, authResource.message, Toast.LENGTH_SHORT).show()
+                    }
+                    AuthResource.AuthStatus.NOT_AUTHENTICATED -> {
+                        showProgressBar(false)
+
+                    }
+                }
             }
         })
+    }
+
+    fun showProgressBar(isVisible: Boolean) {
+        if (isVisible) {
+            progress_bar.visibility = View.VISIBLE
+        } else {
+            progress_bar.visibility = View.GONE
+        }
     }
 
     private fun setLogo() {

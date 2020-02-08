@@ -14,7 +14,7 @@ import javax.inject.Inject
 class AuthViewModel @Inject constructor(val authApi: AuthAPI) : ViewModel() {
     private val TAG = "AuthViewModel"
 
-    private var mediatorLiveData = MediatorLiveData<User>()
+    private var mediatorLiveData = MediatorLiveData<AuthResource<User>>()
 
     init {
 
@@ -22,18 +22,29 @@ class AuthViewModel @Inject constructor(val authApi: AuthAPI) : ViewModel() {
     }
 
     fun authenticateWithId(userId: Int) {
-        val source: LiveData<User> = LiveDataReactiveStreams.fromPublisher(
+        mediatorLiveData.value = AuthResource.loading(null)
+
+        val source: LiveData<AuthResource<User>> = LiveDataReactiveStreams.fromPublisher(
             authApi.getUser(userId)
+                .onErrorReturn {
+                    return@onErrorReturn User(-1, "", "", "", "")
+                }
+                .map { user ->
+                    if (user.id == -1) {
+                        return@map AuthResource.error("Could not authenticate", user)
+                    }
+                    return@map AuthResource.authenticated(user)
+                }
                 .subscribeOn(Schedulers.io())
         )
 
         mediatorLiveData.addSource(
             source
-        ) { user ->
-            mediatorLiveData.value = user
+        ) {
+            mediatorLiveData.value = it
             mediatorLiveData.removeSource(source)
         }
     }
 
-    fun observeUser(): LiveData<User> = mediatorLiveData
+    fun observeUser(): LiveData<AuthResource<User>> = mediatorLiveData
 }
