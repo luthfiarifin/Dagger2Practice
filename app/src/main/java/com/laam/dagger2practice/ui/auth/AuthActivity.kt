@@ -2,6 +2,10 @@ package com.laam.dagger2practice.ui.auth
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Log
+import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.RequestManager
@@ -33,12 +37,34 @@ class AuthActivity : DaggerAppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this, factory)[AuthViewModel::class.java]
 
+        login_button.setOnClickListener {
+            attemptLogin()
+        }
+
         setLogo()
+
+        subscribeObservers()
+    }
+
+    private fun subscribeObservers() {
+        viewModel.observeUser().observe(this, Observer { user ->
+            user?.let {
+                Log.d(TAG, "onChanged: ${user.email}")
+            }
+        })
     }
 
     private fun setLogo() {
         requestManager
             .load(logo)
             .into(login_logo)
+    }
+
+    private fun attemptLogin() {
+        if (TextUtils.isEmpty(user_id_input.text.toString())) {
+            return
+        }
+
+        viewModel.authenticateWithId(user_id_input.text.toString().toInt())
     }
 }

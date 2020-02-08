@@ -1,36 +1,39 @@
 package com.laam.dagger2practice.ui.auth
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.LiveDataReactiveStreams
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
+import com.laam.dagger2practice.model.User
 import com.laam.dagger2practice.network.auth.AuthAPI
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
-class AuthViewModel @Inject constructor(authApi: AuthAPI) : ViewModel() {
+class AuthViewModel @Inject constructor(val authApi: AuthAPI) : ViewModel() {
     private val TAG = "AuthViewModel"
 
-    private var compositeDisposable = CompositeDisposable()
+    private var mediatorLiveData = MediatorLiveData<User>()
 
     init {
 
         Log.d(TAG, "Work Gannnnn!!")
+    }
 
-        compositeDisposable.add(
-            authApi.getUser(1)
-                .toObservable()
+    fun authenticateWithId(userId: Int) {
+        val source: LiveData<User> = LiveDataReactiveStreams.fromPublisher(
+            authApi.getUser(userId)
                 .subscribeOn(Schedulers.io())
-                .subscribe(
-                    { value -> Log.d(TAG, "onNext: ${value.email}") },
-                    { error -> Log.e(TAG, "onError: ${error.printStackTrace()}") },
-                    { Log.d(TAG, "onComplete: complete") }
-                )
         )
+
+        mediatorLiveData.addSource(
+            source
+        ) { user ->
+            mediatorLiveData.value = user
+            mediatorLiveData.removeSource(source)
+        }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.dispose()
-    }
+    fun observeUser(): LiveData<User> = mediatorLiveData
 }
