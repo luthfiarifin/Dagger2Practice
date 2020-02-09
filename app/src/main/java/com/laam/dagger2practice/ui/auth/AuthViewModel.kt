@@ -3,7 +3,6 @@ package com.laam.dagger2practice.ui.auth
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import com.laam.dagger2practice.SessionManager
 import com.laam.dagger2practice.model.User
