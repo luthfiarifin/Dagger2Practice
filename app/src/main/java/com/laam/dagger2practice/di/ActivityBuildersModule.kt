@@ -3,6 +3,7 @@ package com.laam.dagger2practice.di
 import com.laam.dagger2practice.di.auth.AuthModule
 import com.laam.dagger2practice.di.auth.AuthViewModelModule
 import com.laam.dagger2practice.di.main.MainFragmentBuildersModule
+import com.laam.dagger2practice.di.main.MainModule
 import com.laam.dagger2practice.di.main.MainViewModelModule
 import com.laam.dagger2practice.ui.auth.AuthActivity
 import com.laam.dagger2practice.ui.main.MainActivity
@@ -18,7 +19,7 @@ abstract class ActivityBuildersModule {
     abstract fun contributeAuthActivity(): AuthActivity
 
     @ContributesAndroidInjector(
-        modules = [MainFragmentBuildersModule::class, MainViewModelModule::class]
+        modules = [MainFragmentBuildersModule::class, MainViewModelModule::class, MainModule::class]
     )
     abstract fun contributeMainActivity(): MainActivity
 
