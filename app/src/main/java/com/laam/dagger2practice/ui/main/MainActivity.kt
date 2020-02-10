@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.laam.dagger2practice.BaseActivity
 import com.laam.dagger2practice.R
+import com.laam.dagger2practice.ui.main.post.PostFragment
 import com.laam.dagger2practice.ui.main.profile.ProfileFragment
 
 class MainActivity : BaseActivity() {
@@ -19,7 +20,7 @@ class MainActivity : BaseActivity() {
 
     private fun testFragment() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, ProfileFragment())
+            .replace(R.id.main_container, PostFragment())
             .commit()
     }
 
