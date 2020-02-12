@@ -8,6 +8,7 @@ import retrofit2.Retrofit
 @Module
 object AuthModule {
 
+    @AuthScope
     @JvmStatic
     @Provides
     fun provideAuthApi(retrofit: Retrofit): AuthAPI = retrofit

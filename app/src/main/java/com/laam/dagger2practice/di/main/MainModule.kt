@@ -9,11 +9,13 @@ import retrofit2.Retrofit
 @Module
 object MainModule {
 
+    @MainScope
     @JvmStatic
     @Provides
     fun provideMainApi(retrofit: Retrofit): MainAPI = retrofit
         .create(MainAPI::class.java)
 
+    @MainScope
     @JvmStatic
     @Provides
     fun provideAdapter(): PostsRecyclerAdapter = PostsRecyclerAdapter()
