@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    app:startDestination="@id/profileFragment">
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.laam.dagger2practice.ui.main.profile.ProfileFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/profile_fragment" />
+
+    <fragment
+        android:id="@+id/postFragment"
+        android:name="com.laam.dagger2practice.ui.main.post.PostFragment"
+        android:label="@string/posts"
+        tools:layout="@layout/post_fragment" />
+</navigation>

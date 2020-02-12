@@ -1,6 +1,5 @@
 package com.laam.dagger2practice.ui.auth
 
-//import com.laam.dagger2practice.viewmodels.ViewModelProviderFactory
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
